@@ -4,7 +4,7 @@ import { login, authenticate } from "api/auth";
 
 import "./style.css";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -156,4 +156,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

@@ -7,7 +7,7 @@
 /* hero section starts */
 
 .hero-sec {
-  background: linear-gradient(92.57deg, #20292a 20.03%, #386745 79.04%);
+  /* background: linear-gradient(92.57deg, #20292a 20.03%, #386745 79.04%); */
   width: 100%;
   height: 110vh;
 }
@@ -30,10 +30,9 @@
 
 .hero-title-sec {
   border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.1);
+  background-color: rgba(50, 171, 84, .25);
   backdrop-filter: blur(5px);
-  padding: 0.33em 1.94em;
+  padding: 0.6em 1.94em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,14 +45,16 @@
 }
 
 .hero-title {
-  color: rgba(255, 255, 255, 0.8);
+  /* color: rgba(255, 255, 255, 0.8); */
+  color: var(--primary-color);
   font-size: 0.8125rem;
   font-weight: 400;
 }
 
 .hero-header {
   font-size: 4.063rem;
-  color: #fff;
+  /* color: #fff; */
+  color: var(--primary-color);
   line-height: 4.125rem;
   letter-spacing: -2px;
   font-weight: 500;
@@ -61,7 +62,8 @@
 }
 
 .hero-header span {
-  color: var(--yellow-color);
+  /* color: var(--yellow-color); */
+  color: var(--vegetable-color);
   position: relative;
 }
 
@@ -76,9 +78,10 @@
 
 .hero-subheader {
   font-size: 1.063rem;
-  color: rgba(255, 255, 255, 0.6);
+  /* color: rgba(255, 255, 255, 0.6); */
+  color: var(--primary-color);
   line-height: 1.563rem;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 2em;
 }
 
@@ -101,12 +104,13 @@
 
 .hero-signin-p {
   font-size: 0.813rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 200;
+  /* color: rgba(255, 255, 255, 0.6); */
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .hero-signin-p span {
-  color: var(--yellow-color);
+  color: var(--vegetable-color);
 }
 
 .hero-right {
@@ -138,7 +142,7 @@
   margin: 0 auto;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.15) 0%,
+    rgba(50, 171, 84, .25) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.03);
@@ -302,6 +306,9 @@
 .products-sec {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+}
+.products-sec.grid-hori {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* shop section ends */

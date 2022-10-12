@@ -20,8 +20,9 @@ import ThankYou from "pages/Core/ThankYou";
 import AdminDashPanel from "pages/Admin/AdminDashPanel";
 import Footer from "pages/Core/Footer";
 import ScrollToTop from "../../ScrollToTop";
-import { getUserCart } from "api/user";      
+import { getUserCart } from "api/user";
 import { isAuthenticated } from "../../api/auth";
+import ForgotPassword from "pages/Auth/ForgotPassword";
 
 const Routes = () => {
   const [authActive, setAuthActive] = useState(null);
@@ -110,7 +111,7 @@ const Routes = () => {
               />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
-
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
             </Router>
             <Footer />
           </ScrollToTop>

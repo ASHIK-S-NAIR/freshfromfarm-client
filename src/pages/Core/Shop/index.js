@@ -24,7 +24,7 @@ const Shop = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchCategory, setSearchCategory] = useState([]);
   const [searchSort, setSearchSort] = useState("default");
-  const [searchView, setSearchView] = useState("short");
+  const [searchView, setSearchView] = useState(true);
 
   const loadAllProducts = async () => {
     try {
@@ -94,7 +94,7 @@ const Shop = () => {
                   >
                     <path
                       d="M0.79323 18.2793C57.9285 3.68963 97.7746 -6.22468 126.423 11.2769"
-                      stroke="white"
+                      stroke="#46c270"
                       strokeWidth="3"
                     />
                   </svg>
@@ -190,17 +190,6 @@ const Shop = () => {
                   Meat
                 </label>
               </div>
-              {/* <select name="" id="" className="search-filter-category">
-                <option value="" className="search-filter-category-item">
-                  Fruits
-                </option>
-                <option value="" className="search-filter-category-item">
-                  Vegetables
-                </option>
-                <option value="" className="search-filter-category-item">
-                  Poultry
-                </option>
-              </select> */}
             </div>
             <div className="search-filter-sort-sec">
               <h3 className="search-filter-sort-header">Sort by</h3>
@@ -255,7 +244,12 @@ const Shop = () => {
                 </div>
               </form>
               <div className="search-view-sec">
-                <div className="search-view-icon-sec search-view-short active">
+                <div
+                  className={`search-view-icon-sec search-view-short ${
+                    searchView === true ? "active" : ""
+                  }`}
+                  onClick={() => setSearchView(true)}
+                >
                   <svg
                     width="20"
                     height="20"
@@ -297,7 +291,12 @@ const Shop = () => {
                     />
                   </svg>
                 </div>
-                <div className="search-view-icon-sec search-view-long">
+                <div
+                  className={`search-view-icon-sec search-view-long ${
+                    searchView === false ? "active" : ""
+                  }`}
+                  onClick={() => setSearchView(false)}
+                >
                   <svg
                     width="21"
                     height="20"
@@ -357,12 +356,20 @@ const Shop = () => {
                 </div>
               </div>
             </div>
-            <div className="products-sec">
+            <div
+              className={`products-sec ${
+                searchView === false ? "grid-hori" : ""
+              }`}
+            >
               {products &&
                 products.map((product, index) => {
                   return (
                     <Link to={`/product/${product._id}`} key={index}>
-                      <div className="product-sec">
+                      <div
+                        className={`product-sec ${
+                          searchView === false ? "grid-hori" : ""
+                        }`}
+                      >
                         {product.pStock === 0 && (
                           <div className="outOfStock">
                             <div className="outOfStock-div">
@@ -379,7 +386,11 @@ const Shop = () => {
                           />
                         )}
 
-                        <div className="product-info">
+                        <div
+                          className={`product-info ${
+                            searchView === false ? "grid-hori" : ""
+                          }`}
+                        >
                           <h2 className="product-name">{product.pName}</h2>
                           <h3 className="product-stock">
                             {product.pStock} Kg in stock
