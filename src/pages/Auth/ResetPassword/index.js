@@ -3,16 +3,16 @@ import { forgotPassword } from "api/auth";
 
 import "./style.css";
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
   const [values, setValues] = useState({
-    email: "",
+    newPassword: "",
+    repeatPassword: "",
     loading: "",
     error: "",
     success: false,
   });
 
-  const { email, error, loading, success } = values;
-
+  const { newPassword, repeatPassword, error, loading, success } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
     setValues({ ...values, loading: "loading" });
 
-    if (!email) {
+    if (!newPassword && !repeatPassword )  {
       return setValues({
         ...values,
         loading: "",
@@ -32,15 +32,15 @@ const ForgotPassword = () => {
       });
     }
 
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      console.log("Please enter a valid email address");
-      return setValues({
-        ...values,
-        loading: "",
-        success: false,
-        error: "Enter valid email",
-      });
-    }
+    // if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    //   console.log("Please enter a valid email address");
+    //   return setValues({
+    //     ...values,
+    //     loading: "",
+    //     success: false,
+    //     error: "Enter valid email",
+    //   });
+    // }
     try {
       const data = await forgotPassword(email);
 
@@ -92,25 +92,32 @@ const ForgotPassword = () => {
         <div className="popup-small-sec login-popup">
           <div className="popup-group">
             <div className="popup-head-sec login-head-sec">
-              <h1 className="popup-header">Forgot Password</h1>
-              <p className="popup-header-p">
-                Please enter your email address to search for your account.
-              </p>
+              <h1 className="popup-header">Reset Password</h1>
+              <p className="popup-header-p">Please enter your new password</p>
             </div>
 
             <div className="popup-form">
               <div className="popup-form-single-group">
                 <div className="popup-form-group">
-                  <label className="popup-form-label">Email</label>
+                  <label className="popup-form-label">New Password</label>
                   <input
-                    type="email"
+                    type="password"
                     className="popup-form-input"
-                    onChange={handleChange("email")}
-                    value={email}
+                    onChange={handleChange("newPassword")}
+                    value={newPassword}
+                  />
+                </div>
+                <div className="popup-form-group">
+                  <label className="popup-form-label">Repeat Password</label>
+                  <input
+                    type="password"
+                    className="popup-form-input"
+                    onChange={handleChange("repeatPassword")}
+                    value={repeatPassword}
                   />
                 </div>
               </div>
-              <p className="popup-header-p">
+              {/* <p className="popup-header-p">
                 {success && (
                   <p className="popup-header-p">
                     A one time password reset link has being send to your email,
@@ -118,12 +125,12 @@ const ForgotPassword = () => {
                     <b>Note: The link is valid only for 15minutes</b>
                   </p>
                 )}
-              </p>
+              </p> */}
               <button
                 className="popup-form-btn login-popup-btn"
                 onClick={onSubmit}
               >
-                Send OTP
+                Change
               </button>
             </div>
           </div>
@@ -134,4 +141,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

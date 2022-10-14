@@ -23,6 +23,7 @@ import ScrollToTop from "../../ScrollToTop";
 import { getUserCart } from "api/user";
 import { isAuthenticated } from "../../api/auth";
 import ForgotPassword from "pages/Auth/ForgotPassword";
+import ResetPassword from "pages/Auth/ResetPassword";
 
 const Routes = () => {
   const [authActive, setAuthActive] = useState(null);
@@ -112,6 +113,10 @@ const Routes = () => {
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route
+                path="/resetpassword/:id/:token"
+                element={<ResetPassword />}
+              />
             </Router>
             <Footer />
           </ScrollToTop>

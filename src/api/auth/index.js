@@ -1,20 +1,26 @@
 import { API } from "../../setup/backend-manager";
 
-export const signup = async ({name, email, phoneNumber, password, address}) => {
-  try{
+export const signup = async ({
+  name,
+  email,
+  phoneNumber,
+  password,
+  address,
+}) => {
+  try {
     const result = await fetch(`${API}/signup`, {
       method: "POST",
-      body: JSON.stringify({name, email, phoneNumber, password, address}),
+      body: JSON.stringify({ name, email, phoneNumber, password, address }),
       headers: {
-        "Content-Type": "application/json"
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
 
     return result.json();
-  }catch(error){
+  } catch (error) {
     return error;
   }
-}
+};
 
 export const login = async ({ email, password }) => {
   try {
@@ -43,8 +49,23 @@ export const logout = async (next) => {
       method: "GET",
     });
 
-    return result;
+    return result.json();
+  } catch (error) {
+    return error;
+  }
+};
 
+export const forgotPassword = async (email) => {
+  try {
+    const result = await fetch(`${API}/forgotpassword`, {
+      method: "POST",
+      body: JSON.stringify({email}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return result.json();
   } catch (error) {
     return error;
   }
