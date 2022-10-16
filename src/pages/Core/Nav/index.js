@@ -89,11 +89,6 @@ const Nav = () => {
             </li>
             <li className="nav-li">
               <Link className="nav-link" to="/">
-                Categories
-              </Link>
-            </li>
-            <li className="nav-li">
-              <Link className="nav-link" to="/">
                 About Us
               </Link>
             </li>

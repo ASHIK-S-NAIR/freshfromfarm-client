@@ -114,7 +114,7 @@ const Routes = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route
-                path="/resetpassword/:id/:token"
+                path="/resetpassword/:userId/:token"
                 element={<ResetPassword />}
               />
             </Router>

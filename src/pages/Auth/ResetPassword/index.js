@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { forgotPassword } from "api/auth";
+import { resetPassword } from "api/auth";
+import { useParams, useNavigate } from "react-router-dom";
 
 import "./style.css";
 
 const ResetPassword = () => {
   const [values, setValues] = useState({
-    newPassword: "",
-    repeatPassword: "",
+    password: "",
+    confirmPassword: "",
     loading: "",
     error: "",
     success: false,
   });
 
-  const { newPassword, repeatPassword, error, loading, success } = values;
+  const { password, confirmPassword, error, loading, success } = values;
+
+  const { userId, token } = useParams();
+
+  const navigate = useNavigate();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -23,7 +28,7 @@ const ResetPassword = () => {
 
     setValues({ ...values, loading: "loading" });
 
-    if (!newPassword && !repeatPassword )  {
+    if (!password && !confirmPassword) {
       return setValues({
         ...values,
         loading: "",
@@ -32,17 +37,25 @@ const ResetPassword = () => {
       });
     }
 
-    // if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-    //   console.log("Please enter a valid email address");
-    //   return setValues({
-    //     ...values,
-    //     loading: "",
-    //     success: false,
-    //     error: "Enter valid email",
-    //   });
-    // }
+    if (password.length < 6) {
+      return setValues({
+        ...values,
+        loading: "",
+        success: false,
+        error: "password must be at least 6 characters",
+      });
+    }
+
+    if (!(password === confirmPassword)) {
+      return setValues({
+        ...values,
+        loading: "",
+        success: false,
+        error: "Password confirmation does not match",
+      });
+    }
     try {
-      const data = await forgotPassword(email);
+      const data = await resetPassword(userId, token, password);
 
       if (data.error) {
         console.log(data.error);
@@ -53,12 +66,8 @@ const ResetPassword = () => {
           error: data.error,
         });
       }
-      return setValues({
-        ...values,
-        loading: "",
-        success: true,
-        error: "",
-      });
+      return navigate("/login");
+      
     } catch (error) {
       return setValues({
         ...values,
@@ -103,29 +112,27 @@ const ResetPassword = () => {
                   <input
                     type="password"
                     className="popup-form-input"
-                    onChange={handleChange("newPassword")}
-                    value={newPassword}
+                    onChange={handleChange("password")}
+                    value={password}
                   />
                 </div>
+              </div>
+              <div className="popup-form-single-group">
                 <div className="popup-form-group">
                   <label className="popup-form-label">Repeat Password</label>
                   <input
                     type="password"
                     className="popup-form-input"
-                    onChange={handleChange("repeatPassword")}
-                    value={repeatPassword}
+                    onChange={handleChange("confirmPassword")}
+                    value={confirmPassword}
                   />
                 </div>
               </div>
-              {/* <p className="popup-header-p">
+              <p className="popup-header-p">
                 {success && (
-                  <p className="popup-header-p">
-                    A one time password reset link has being send to your email,
-                    You may go through the link and reset the password.{" "}
-                    <b>Note: The link is valid only for 15minutes</b>
-                  </p>
+                  <p className="popup-header-p">Password reset succssfull</p>
                 )}
-              </p> */}
+              </p>
               <button
                 className="popup-form-btn login-popup-btn"
                 onClick={onSubmit}
