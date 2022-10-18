@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import io from "socket.io-client";
 import CartIcon from "assets/svg/cart.svg";
 import ProductIcon from "assets/svg/product.svg";
 import EmployerIcon from "assets/svg/employer.svg";
@@ -11,10 +12,7 @@ import OrderDetails from "pages/Common/OrderDetails";
 import OrderUpdate from "pages/Common/OrderUpdate";
 import EmployeeUpdate from "../Employee/Components/EmployeeUpdate";
 import PaymentStatusUpdate from "pages/Common/PaymentStatusUpdate";
-// import BarChart from "../Charts/BarChart";
 import { UserData } from "pages/Core/data";
-// import LineChart from "../Charts/LineChart";
-// import PieChart from "../Charts/PieChart";
 import { getAllProducts, getCountProducts } from "api/product";
 import { getAllOrders, getCountOrders } from "api/order";
 import { getCountCustomers } from "api/user";
@@ -66,40 +64,129 @@ const Dashboard = () => {
     customerCommentValue,
   } = commentValues;
 
-  const loadStatusValues = async (userId, token) => {
-    try {
-      const orderStatus = await getCountOrders(userId, token);
-      const productStatus = await getCountProducts(userId, token);
-      const employerStatus = await getCountEmployers(userId, token);
-      const customerStatus = await getCountCustomers(userId, token);
+  // const loadStatusValues = async (userId, token) => {
+  //   try {
+  //     const orderStatus = await getCountOrders(userId, token);
+  //     const productStatus = await getCountProducts(userId, token);
+  //     const employerStatus = await getCountEmployers(userId, token);
+  //     const customerStatus = await getCountCustomers(userId, token);
 
-      if (
-        orderStatus.error ||
-        productStatus.error ||
-        employerStatus.error ||
-        customerStatus.error
-      ) {
-        return console.log("status update error occured");
+  //     if (
+  //       orderStatus.error ||
+  //       productStatus.error ||
+  //       employerStatus.error ||
+  //       customerStatus.error
+  //     ) {
+  //       return console.log("status update error occured");
+  //     } else {
+  //       return setStatusValues({
+  //         ...statusValues,
+  //         orderStatus: orderStatus,
+  //         productStatus: productStatus,
+  //         employerStatus: employerStatus,
+  //         customerStatus: customerStatus,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     return console.log(error);
+  //   }
+  // };
+
+  // const loadCommentValues = async (userId, token) => {
+  //   try {
+  //     const orderCommentArray = await getAllOrders(userId, token, "all");
+  //     const productCommentArray = await getAllProducts("all");
+  //     const emploeeCommentArray = await getEmployees(userId, token, "all");
+  //     const customerCommentArray = await getAllOrders(userId, token, "all");
+
+  //     if (
+  //       orderCommentArray.error ||
+  //       productCommentArray.error ||
+  //       emploeeCommentArray.error ||
+  //       customerCommentArray.error
+  //     ) {
+  //       return console.log("comment values update error occured");
+  //     } else {
+  //       return setCommentValues({
+  //         ...commentValues,
+  //         orderCommentValue: orderCommentArray.filter(
+  //           (orderComment) =>
+  //             orderComment.Ostatus === "Not-Confirmed" ||
+  //             orderComment.Ostatus === "Ordered" ||
+  //             orderComment.Ostatus === "Processing" ||
+  //             orderComment.Ostatus === "Picking-Up" ||
+  //             orderComment.Ostatus === "Out-For-Delivery"
+  //         ).length,
+  //         productCommentValue: productCommentArray.filter(
+  //           (productComment) => productComment.pStock === 0
+  //         ).length,
+  //         employeeCommentValue: emploeeCommentArray.filter(
+  //           (employeeComment) => employeeComment.Estatus === "Available"
+  //         ).length,
+  //         customerCommentValue: customerCommentArray.filter(
+  //           (customerComment) =>
+  //             customerComment.Ostatus === "Not-Confirmed" ||
+  //             customerComment.Ostatus === "Ordered"
+  //         ).length,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     return console.log(error);
+  //   }
+  // };
+
+  const loadPendingOrders = async (userId, token) => {
+    try {
+      const data = await getAllOrders(userId, token, "pending");
+      if (data.error) {
+        return console.log(data.error);
       } else {
-        return setStatusValues({
-          ...statusValues,
-          orderStatus: orderStatus,
-          productStatus: productStatus,
-          employerStatus: employerStatus,
-          customerStatus: customerStatus,
-        });
+        return setPendingOrders(data);
       }
     } catch (error) {
       return console.log(error);
     }
   };
 
-  const loadCommentValues = async (userId, token) => {
-    try {
-      const orderCommentArray = await getAllOrders(userId, token, "all");
-      const productCommentArray = await getAllProducts("all");
-      const emploeeCommentArray = await getEmployees(userId, token, "all");
-      const customerCommentArray = await getAllOrders(userId, token, "all");
+  const handlePreview = async (order) => {
+    return setOrderActive("orderDetails"), setOrder(order);
+  };
+
+  const handleEdit = async (order) => {
+    return setOrderUpdateActive("orderUpdateActive"), setOrder(order);
+  };
+
+  const handleEmployeeAssign = async (order) => {
+    return (
+      setOrderEmployeeAssignActive("orderEmployeeAssignActive"), setOrder(order)
+    );
+  };
+
+  const handlePaymentStatus = (order) => {
+    return setOrderUpdatePayment("orderUpdatePayment"), setOrder(order);
+  };
+
+  const socket = io("http://localhost:8000", {
+    transports: ["websocket", "polling"],
+  });
+
+  useEffect(() => {
+    socket.on("statusValues", (countValues) => {
+      setStatusValues({
+        orderStatus: countValues.orderCount,
+        productStatus: countValues.productCount,
+        employerStatus: countValues.employerCount,
+        customerStatus: countValues.customerCount,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("commentArray", (commentArray) => {
+      const orderCommentArray = commentArray.orderCommentArray;
+      const productCommentArray = commentArray.productCommentArray;
+      const emploeeCommentArray = commentArray.employeeCommentArray;
+      const customerCommentArray = commentArray.customerCommentArray;
 
       if (
         orderCommentArray.error ||
@@ -132,59 +219,16 @@ const Dashboard = () => {
           ).length,
         });
       }
-    } catch (error) {
-      return console.log(error);
-    }
-  };
+    });
+  }, []);
 
-  const loadPendingOrders = async (userId, token) => {
-    try {
-      const data = await getAllOrders(userId, token, "pending");
-      if (data.error) {
-        return console.log(data.error);
-      } else {
-        return setPendingOrders(data);
-      }
-    } catch (error) {
-      return console.log(error);
-    }
-  };
+  // useEffect(() => {
+  //   loadStatusValues(user._id, token);
+  // }, [orderActive, orderUpdateActive, orderEmployeeAssignActive]);
 
-  // const loadFromZero = async (value, setState) => {
-  //   for (var i = 0; i <= value; i++) {
-  //     return i;
-  //   }
-  // };
-
-  const handlePreview = async (order) => {
-    return setOrderActive("orderDetails"), setOrder(order);
-  };
-
-  const handleEdit = async (order) => {
-    return setOrderUpdateActive("orderUpdateActive"), setOrder(order);
-  };
-
-  const handleEmployeeAssign = async (order) => {
-    return (
-      setOrderEmployeeAssignActive("orderEmployeeAssignActive"), setOrder(order)
-    );
-  };
-
-  // const handleEvent = () => {
-
-  // }
-
-  const handlePaymentStatus = (order) => {
-    return setOrderUpdatePayment("orderUpdatePayment"), setOrder(order);
-  };
-
-  useEffect(() => {
-    loadStatusValues(user._id, token);
-  }, [orderActive, orderUpdateActive, orderEmployeeAssignActive]);
-
-  useEffect(() => {
-    loadCommentValues(user._id, token);
-  }, [orderActive, orderUpdateActive, orderEmployeeAssignActive]);
+  // useEffect(() => {
+  //   loadCommentValues(user._id, token);
+  // }, [orderActive, orderUpdateActive, orderEmployeeAssignActive]);
 
   useEffect(() => {
     loadPendingOrders(user._id, token);
@@ -253,12 +297,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="adminDashPanel-right-subsection">
-        <BarChart chartData= {userData} />
-        <LineChart chartData={userData} />
-        <PieChart chartData={userData} />
-      </div> */}
 
       <h1 className="adminDashPanel-right-header">Pending Orders</h1>
       <div className="adminDashPanel-right-subsection">

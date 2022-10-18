@@ -129,8 +129,7 @@ export const getCountProducts = async (userId, token) => {
 };
 
 // createProduct
-export const createProduct = async (userId, formData,token ) => {
-  console.log("reached here");
+export const createProduct = async (userId, token, formData) => {
   try {
     const result = await fetch(`${API}/product/create/${userId}`, {
       method: "POST",
