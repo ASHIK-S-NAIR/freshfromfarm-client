@@ -19,7 +19,6 @@ import { CartPayment } from "pages/Core/CartPayment";
 import ThankYou from "pages/Core/ThankYou";
 import AdminDashPanel from "pages/Admin/AdminDashPanel";
 import Footer from "pages/Core/Footer";
-import ScrollToTop from "../../ScrollToTop";
 import { getUserCart } from "api/user";
 import { isAuthenticated } from "../../api/auth";
 import ForgotPassword from "pages/Auth/ForgotPassword";
@@ -48,7 +47,6 @@ const Routes = () => {
     <BrowserRouter>
       <AuthContext.Provider value={{ authActive, setAuthActive }}>
         <CartContext.Provider value={{ cart, setCart, preLoadCart }}>
-          <ScrollToTop>
             <Nav />
             <Router>
               <Route path="/" element={<Shop />} />
@@ -119,7 +117,6 @@ const Routes = () => {
               />
             </Router>
             <Footer />
-          </ScrollToTop>
         </CartContext.Provider>
       </AuthContext.Provider>
     </BrowserRouter>
