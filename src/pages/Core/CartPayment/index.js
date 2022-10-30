@@ -8,6 +8,7 @@ import {
   razorPayOrder,
   updateOrderConfirmation,
 } from "api/order";
+import "./style.css";
 
 export const CartPayment = () => {
   const { userId } = useParams();
@@ -18,7 +19,7 @@ export const CartPayment = () => {
   const [values, setValues] = useState({
     paymentMode: "RazorPay",
     total: 10,
-    userDetails: "",
+    userDetails: {},
   });
 
   var cart = [];
@@ -43,14 +44,13 @@ export const CartPayment = () => {
         console.log(data.error);
       } else {
         cart = data.cart;
-        console.log(cart);
         var tempTotal = 0;
         cart.map(
           (cartItem) =>
             (tempTotal =
               tempTotal + cartItem.product.pPrice * cartItem.quantity)
         );
-        setValues({ ...values, total: tempTotal });
+        setValues((prevState) => ({ ...prevState, total: tempTotal }));
       }
     } catch (error) {
       console.log(error);
@@ -63,8 +63,6 @@ export const CartPayment = () => {
       if (data.error) {
         console.log(data.error);
       } else {
-        // return (userDetails = data);
-        console.log("Userdata", data);
         return setValues({ ...values, userDetails: data });
       }
     } catch (error) {
@@ -97,7 +95,6 @@ export const CartPayment = () => {
             if (data.error) {
               return console.log(data.error);
             } else {
-              console.log(data);
               naviagte(`/thankyou/${order._id}`);
             }
           } catch (error) {}
@@ -139,7 +136,6 @@ export const CartPayment = () => {
           if (data.error) {
             return console.log(data.error);
           }
-          console.log(data);
           naviagte(`/thankyou/${order._id}`);
         } catch (error) {
           console.log(error);
@@ -165,60 +161,64 @@ export const CartPayment = () => {
     <section className="cardPayment-section">
       <div className="wrap cardPayment-wrap">
         <div className="cardPayment-info-sec">
-          <div className="cardPayment-delivery-details-sec">
-            <h2 className="cardpayment-delivery-details-header">
-              Delivery Details
-            </h2>
-            <div className="cardPayment-delivery-details">
-              <div className="cardPayment-delivery-details-single-group">
-                <div className="cardPayment-delivery-details-group">
-                  <label className="cardPayment-delivery-details-label">
-                    Name
-                  </label>
-                  <p className="cardPayment-delivery-details-value">
-                    {userDetails.name}
-                  </p>
+          {userDetails.address !== undefined && (
+            <div className="cardPayment-delivery-details-sec">
+              <h2 className="cardpayment-delivery-details-header">
+                Delivery Details
+              </h2>
+              <div className="cardPayment-delivery-details">
+                <div className="cardPayment-delivery-details-single-group">
+                  <div className="cardPayment-delivery-details-group">
+                    <label className="cardPayment-delivery-details-label">
+                      Name
+                    </label>
+                    <p className="cardPayment-delivery-details-value">
+                      {userDetails.name}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="cardPayment-delivery-details-double-group">
-                <div className="cardPayment-delivery-details-group">
-                  <label className="cardPayment-delivery-details-label">
-                    Email
-                  </label>
-                  {/* <p className="cardPa yment-delivery-details-value">{userDetails.email}</p> */}
+                <div className="cardPayment-delivery-details-double-group">
+                  <div className="cardPayment-delivery-details-group">
+                    <label className="cardPayment-delivery-details-label">
+                      Email
+                    </label>
+                    <p className="cardPayment-delivery-details-value">
+                      {userDetails.email}
+                    </p>
+                  </div>
+                  <div className="cardPayment-delivery-details-group">
+                    <label className="cardPayment-delivery-details-label">
+                      Phone
+                    </label>
+                    <p className="cardPayment-delivery-details-value">
+                      {userDetails.phoneNumber}
+                    </p>
+                  </div>
                 </div>
-                <div className="cardPayment-delivery-details-group">
-                  <label className="cardPayment-delivery-details-label">
-                    Phone
-                  </label>
-                  <p className="cardPayment-delivery-details-value">
-                    {/* {userDetails.phoneNumber} */}
-                  </p>
-                </div>
-              </div>
-              <h3 className="cardPayment-delivery-details-subheader">
-                Shipping Address
-              </h3>
-              <div className="cardPayment-delivery-details-double-group">
-                <div className="cardPayment-delivery-details-group">
-                  <label className="cardPayment-delivery-details-label">
-                    House Name
-                  </label>
-                  <p className="cardPayment-delivery-details-value">
-                    {/* {userDetails.address.houseName} */}
-                  </p>
-                </div>
-                <div className="cardPayment-delivery-details-group">
-                  <label className="cardPayment-delivery-details-label">
-                    Street Name
-                  </label>
-                  <p className="cardPayment-delivery-details-value">
-                    {/* {userDetails.address.streetName} */}
-                  </p>
+                <h3 className="cardPayment-delivery-details-subheader">
+                  Shipping Address
+                </h3>
+                <div className="cardPayment-delivery-details-double-group">
+                  <div className="cardPayment-delivery-details-group">
+                    <label className="cardPayment-delivery-details-label">
+                      House Name
+                    </label>
+                    <p className="cardPayment-delivery-details-value">
+                      {userDetails.address.houseName}
+                    </p>
+                  </div>
+                  <div className="cardPayment-delivery-details-group">
+                    <label className="cardPayment-delivery-details-label">
+                      Street Name
+                    </label>
+                    <p className="cardPayment-delivery-details-value">
+                      {userDetails.address.streetName}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="cardPayment-payment-details-sec">
             <h2 className="cardPayment-payment-details-header">Payment Mode</h2>
             <div className="cardPayment-payment-details-form">

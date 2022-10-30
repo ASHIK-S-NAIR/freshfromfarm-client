@@ -172,33 +172,6 @@ a {
 
 /* general settings ends */
 
-/* custom scroll-bar starts */
-
-/* body::-webkit-scrollbar {
-  width: 0.9vw;
-}
-
-body::-webkit-scrollbar-track {
-  background: var(--secondary-color);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color);
-  height: 10vw;
-  border-radius: 100vw;
-  border: 2px solid var(--secondary-color);
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(112, 112, 112);
-}
-
-* {
-  scrollbar-color: var(--primary-color) var(--secondary-color);
-  scrollbar-width: thin;
-} */
-
-/* custom scroll-bar ends */
 
 /* nav section starts */
 
@@ -1314,6 +1287,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 .userBoard-section {
   padding-top: 1.5em;
+  padding-bottom: 2.5em;
 }
 
 .userBoard-wrap {
@@ -1731,7 +1705,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* cardPayment section starts */
 
-.cardPayment-wrap {
+/* .cardPayment-wrap {
   display: grid;
   place-items: center;
   margin-top: 5em;
@@ -1835,7 +1809,7 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 5px;
   color: #fff;
   margin-top: 3em;
-}
+} */
 
 /* cardPayment section ends */
 
@@ -1982,6 +1956,7 @@ tr {
 
 .adminDashPanel-section {
   padding-top: 1.5em;
+  padding-bottom: 2.5em;
 }
 
 .adminDashPanel-wrap {

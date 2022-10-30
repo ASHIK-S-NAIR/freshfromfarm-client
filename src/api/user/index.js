@@ -173,7 +173,6 @@ export const getCustomers = async (userId, token) => {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) => res.json());
-
     return result;
   } catch (error) {
     return error;

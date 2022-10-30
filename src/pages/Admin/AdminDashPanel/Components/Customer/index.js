@@ -40,8 +40,6 @@ const Customer = () => {
     loadCustomers(user._id, token);
   }, []);
 
-  // console.log("Customers", customers);
-
   return (
     <section className="adminDashPanel-section customer-section">
       <h1 className="adminDashPanel-right-header">Customers</h1>
