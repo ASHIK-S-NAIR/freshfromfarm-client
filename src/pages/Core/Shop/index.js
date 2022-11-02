@@ -17,6 +17,7 @@ import DeliveryIcon from "assets/svg/Shopping/Delivery.svg";
 
 // importing loading component
 import Loading from "../Components/Loading";
+import WelcomeLoading from "../Components/WelcomeLoading";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -71,7 +72,7 @@ const Shop = () => {
   }, []);
 
   return isLoading ? (
-    <Loading />
+    <WelcomeLoading />
   ) : (
     <section className="shop-section">
       <div className="hero-sec">
