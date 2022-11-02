@@ -130,6 +130,14 @@ a {
   left: 75%;
 }
 
+.loading-h1{
+  color: var(--primary-color);
+  font-family: "Comfortaa", cursive;
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: -0.08em;
+}
+
 @keyframes loadingB {
   0% {
     width: 1em;

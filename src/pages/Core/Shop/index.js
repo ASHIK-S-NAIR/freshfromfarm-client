@@ -16,7 +16,6 @@ import DeliveryBoy from "assets/images/deliverboy-green.png";
 import DeliveryIcon from "assets/svg/Shopping/Delivery.svg";
 
 // importing loading component
-import Loading from "../Components/Loading";
 import WelcomeLoading from "../Components/WelcomeLoading";
 
 const Shop = () => {
