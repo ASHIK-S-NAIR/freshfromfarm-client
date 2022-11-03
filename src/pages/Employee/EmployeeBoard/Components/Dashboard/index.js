@@ -106,7 +106,7 @@ const Dashboard = () => {
 
         <div className="employeeBoard-dashboard-status-sec dashboard-status-sec-DeliveryStatus">
           <div className="adminDashPanel-dashboard-status-left">
-            <p className="dashboard-status-tag">Products</p>
+            <p className="dashboard-status-tag">Deliveries</p>
             <h1 className="dashboard-status-value">{NewDeliveries}</h1>
           </div>
           <div className="adminDashPanel-dashboard-status-right">
