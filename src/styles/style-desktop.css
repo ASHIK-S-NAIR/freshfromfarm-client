@@ -43,7 +43,7 @@ section {
 }
 
 .wrap {
-  width: 91%;
+  width: min(91%, 1250px);
   margin: 0 auto;
 }
 
